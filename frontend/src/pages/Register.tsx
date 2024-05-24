@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import * as apiClient from '../api-client';
 import { useAppContext } from "../contexts/AppContext";
+import { useNavigate } from "react-router-dom";
 
 
  export type RegisterFormData = {
@@ -13,15 +14,20 @@ import { useAppContext } from "../contexts/AppContext";
 }
 
 const Register = () => {
+  const navigate = useNavigate();
   const { showToast } = useAppContext();
 
-  const { register, watch, handleSubmit, 
+  const { 
+    register, 
+    watch, 
+    handleSubmit, 
     formState: { errors },
    } = useForm<RegisterFormData>();
 
    const mutation = useMutation(apiClient.register, {
      onSuccess: () => {
       showToast({message: "Registration Success!", type: "SUCCESS"});
+      navigate("/");
      },
      onError: (error: Error)=>{
        showToast({message: error.message, type: "ERROR"});
@@ -74,7 +80,8 @@ const Register = () => {
                     return "Your password do not match";
                    }
                  }
-             })} />
+             })} 
+             />
              {errors.confirmPassword && (
                 <span className="text-red-500">{errors.confirmPassword.message}</span>
               )}
