@@ -5,18 +5,16 @@ import { useAppContext } from "../contexts/AppContext";
 import { useNavigate } from "react-router-dom";
 
 
- export type RegisterFormData = {
+  export type RegisterFormData = {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
 }
-
-const Register = () => {
+  const Register = () => {
   const navigate = useNavigate();
   const { showToast } = useAppContext();
-
   const { 
     register, 
     watch, 
@@ -24,7 +22,7 @@ const Register = () => {
     formState: { errors },
    } = useForm<RegisterFormData>();
 
-   const mutation = useMutation(apiClient.register, {
+    const mutation = useMutation(apiClient.register, {
      onSuccess: () => {
       showToast({message: "Registration Success!", type: "SUCCESS"});
       navigate("/");
@@ -34,7 +32,7 @@ const Register = () => {
      },
    });
 
-   const onSubmit = handleSubmit((data)=>{
+    const onSubmit = handleSubmit((data)=>{
      mutation.mutate(data);
    })
   return (
@@ -92,5 +90,4 @@ const Register = () => {
     </form>
   )
 }
-
 export default Register;
